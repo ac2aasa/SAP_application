@@ -1,0 +1,42 @@
+*&---------------------------------------------------------------------*
+*& Report  ZZARYAN_APP2
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------
+REPORT ZZARYAN_APP2.
+tables zzaryan_app2.
+
+data: wa_zzaryan_app2 type zzaryan_app2.
+
+START-OF-SELECTION.
+
+call SCREEN 0299.
+*&---------------------------------------------------------------------*
+*&      Module  STATUS_0299  OUTPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE STATUS_0299 OUTPUT.
+  SET PF-STATUS 'APP2'.
+  SET TITLEBAR 'APP2'.
+ENDMODULE.
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_0299  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE USER_COMMAND_0299 INPUT.
+    IF SY-UCOMM = 'BACK' OR
+   SY-UCOMM = 'EXIT'.
+   LEAVE TO SCREEN 0.
+ ELSEIF SY-UCOMM = 'SAVE'.
+  IF wa_Zzaryan_app2-ernam IS NOT INITIAL.
+    MODIFY Zzaryan_app2 FROM wa_Zzaryan_app2.
+    IF SY-SUBRC = 0.
+      MESSAGE 'Data is Saved' TYPE 'S'.
+    ENDIF.
+  ENDIF.
+endif.
+ENDMODULE.

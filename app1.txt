@@ -1,0 +1,40 @@
+*&---------------------------------------------------------------------*
+*& Report  ZZARYAN_APP1
+*&
+*&---------------------------------------------------------------------*
+*&
+*&
+*&---------------------------------------------------------------------*
+REPORT ZZARYAN_APP1.
+TABLES:Zzaryan_app1.
+
+data: wa_Zzaryan_app1 type Zzaryan_app1.
+DATA zzaryan_app1_status_0298o01.
+
+START-OF-SELECTION.
+
+call SCREEN 0298.
+
+MODULE STATUS_0298 OUTPUT.
+  SET PF-STATUS 'ARYAN'.
+  SET TITLEBAR 'ARYAN'.
+ENDMODULE.
+
+*&---------------------------------------------------------------------*
+*&      Module  USER_COMMAND_0298  INPUT
+*&---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE USER_COMMAND_0298 INPUT.
+   IF SY-UCOMM = 'BACK' OR
+   SY-UCOMM = 'EXIT'.
+   LEAVE TO SCREEN 0.
+ ELSEIF SY-UCOMM = 'SAVE'.
+  IF wa_Zzaryan_app1-kunnr IS NOT INITIAL.
+    MODIFY Zzaryan_app1 FROM wa_Zzaryan_app1.
+    IF SY-SUBRC = 0.
+      MESSAGE 'Data is Saved' TYPE 'S'.
+    ENDIF.
+  ENDIF.
+endif.
+ENDMODULE.
